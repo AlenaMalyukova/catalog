@@ -24,8 +24,19 @@ export const getAgent = () => {
     })
   }
 
+  const searchCategories = async(id) => {
+    return await axios({
+      method: 'GET',
+      url: '/menutags',
+      params: {
+        city_id: id
+      }
+    })
+  }
+
   return { 
     searchCities,
     getCity,
+    searchCategories
   }
 }

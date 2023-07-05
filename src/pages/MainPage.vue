@@ -2,36 +2,49 @@
   <div v-if="isLoading"> Загрузка... </div>
   <div v-else>
     <Header/>
-    <Intro/>
+    <Catalog :categories="categories"/>
   </div>
 </template>
 
 <script>
 import Header from '../components/layouts/Header.vue';
-import Intro from '../components/layouts/Intro.vue';
+import Catalog from '../components/layouts/Catalog.vue';
 import { useCitiesStore } from '../stores/CitiesStore';
+import { useCategoriesStore } from '../stores/CategoriesStore';
 
 export default {
   name: 'MainPage',
   components: {
     Header,
-    Intro
+    Catalog
   },
   data: () => ({
     cityId: 1,
     isLoading: true,
-    store: {},
+    citiesStore: {},
+    categoriesStore: {},
   }),
   async mounted() {
-    this.store = useCitiesStore();
+    this.citiesStore = useCitiesStore();
+    this.categoriesStore = useCategoriesStore();
 
     await this.setCurrentCity(this.cityId);
+
+    await this.loadCategories(this.cityId);
 
     this.isLoading = false;
   },
   methods: {
     async setCurrentCity(id) {
-      await this.store.setCurrentCity(id)
+      await this.citiesStore.setCurrentCity(id)
+    },
+    async loadCategories(id) {
+      await this.categoriesStore.loadCategories(id)
+    },
+  },
+  computed: {
+    categories() {
+      return this.categoriesStore.categories
     }
   }
 }
