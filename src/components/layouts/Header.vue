@@ -1,7 +1,7 @@
 <template>
   <div class="header">
     <img class="mark" src="../../assets/icons/mark.svg" alt="mark">
-    <h2 class="city" @click="selectCity">{{ currentCity.city }}</h2>
+    <h2 class="city" @click="selectCity">{{ currentCity?.city }}</h2>
   </div>
   <SelectCityModal v-if="isSelectCity" @close="selectCity"/>
 </template>
@@ -18,17 +18,20 @@ export default {
   data: () => ({
     isSelectCity: false,
     store: {},
-    currentCity: {},
   }),
   mounted() {
     this.store = useCitiesStore();
-    this.currentCity = this.store.currentCity;
   },
   methods: {
     selectCity() {
       this.isSelectCity = !this.isSelectCity
-    }
-  }
+    },
+  },
+  computed: {
+    currentCity() {
+      return this.store.currentCity;
+    },
+  },
 }
 </script>
 

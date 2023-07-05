@@ -7,6 +7,7 @@
       <SearchSelect
         :options="options"
         @input="search"
+        @set-option="setCurrentCity"
         @change-option-selected="changeOptionSelect"
       />
       <button 
@@ -15,7 +16,7 @@
           { 'modal-content__button_active': isOptionSelected }
         ]"
         :disabled="!isOptionSelected"
-        @click="sendData"
+        @click="setCity"
         > Подтвердить </button>
     </div>
   </div>
@@ -25,6 +26,7 @@
 <script>
 import SearchSelect from '../SearchSelect.vue';
 import { getAgent } from '../../api';
+import { useCitiesStore } from '../../stores/CitiesStore';
 
 export default{
   name: 'SelectCity',
@@ -35,16 +37,22 @@ export default{
     options: [],
     store: {},
     agent: {},
+    selectedCity: {},
     isOptionSelected: false,
   }),
   mounted() {
     this.agent = getAgent();
+    this.store = useCitiesStore();
   },
   methods: {
     close() {
       this.$emit('close')
     },
     async search(term) {
+      if (term === '') {
+        return
+      }
+
       const { data } = await this.agent.searchCities(term);
 
       this.options = data.data
@@ -52,15 +60,16 @@ export default{
     changeOptionSelect(value) {
       this.isOptionSelected = value
     },
-    sendData() {
-      this.$emit('click-btn')
+    setCity() {
+      const id = this.selectedCity.id
+
+      this.store.setCurrentCity(id)
+      this.close()
+    },
+    setCurrentCity(city) {
+      this.selectedCity = city
     },
   },
-  // computed: {
-  //   activeBtn() {
-
-  //   }
-  // }
 }
 </script>
 

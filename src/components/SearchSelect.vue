@@ -7,7 +7,7 @@
         class="options__item" 
         v-for="option in filteredOptions" 
         :key="option.id"
-        @click="setCity(option.city)"
+        @click="setOption(option)"
       >
         {{ option.label }}
       </div>
@@ -36,11 +36,11 @@ export default {
 
       this.isOptionSelected = false
     },
-    setCity(city) {
-      this.searchTerm = city
-
+    setOption(option) {
+      this.searchTerm = option.city
       this.isOptionSelected = true
-      
+
+      this.$emit('set-option', option)
     }
   },
   computed: {
