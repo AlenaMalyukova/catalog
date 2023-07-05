@@ -1,8 +1,14 @@
 <template>
   <div class="select">
-    <input class="select__input" type="text" v-model="searchTerm" />
-    <div class="options" v-if="searchTerm">
-      <div class="options__item" v-for="option in filteredOptions" :value="option.value" :key="option">
+    <input class="select__input" type="text" v-model="searchTerm" @input="input"/>
+    <img class="select__clear" @click="clear" src="../assets/icons/close.svg" alt="clear">
+    <div class="options" v-if="isOptionsVisible">
+      <div 
+        class="options__item" 
+        v-for="option in filteredOptions" 
+        :key="option.id"
+        @click="setCity(option.city)"
+      >
         {{ option.label }}
       </div>
     </div>
@@ -11,21 +17,47 @@
 
 <script>
 export default {
+  props: {
+    options: Array,
+  },
   data: () => ({
-    options: [
-      { label: 'Option 1', value: 'option1' },
-      { label: 'Option 2', value: 'option2' },
-      { label: 'Option 3', value: 'option3' },
-    ],
     searchTerm: '',
+    isOptionSelected: false,
   }),
+  methods: {
+    clear() {
+      this.searchTerm = ''
+      this.$emit('input', this.searchTerm)
+
+      this.isOptionSelected = false
+    },
+    input() {
+      this.$emit('input', this.searchTerm)
+
+      this.isOptionSelected = false
+    },
+    setCity(city) {
+      this.searchTerm = city
+
+      this.isOptionSelected = true
+      
+    }
+  },
   computed: {
     filteredOptions() {
       return this.options.filter((option) =>
         option.label.toLowerCase().includes(this.searchTerm.toLowerCase())
       );
     },
+    isOptionsVisible() {
+      return !this.isOptionSelected && this.filteredOptions.length && this.searchTerm !== ''
+    },
   },
+  watch: {
+    isOptionSelected() {
+      this.$emit('change-option-selected', this.isOptionSelected)
+    }
+  }
 }
 </script>
 
@@ -49,14 +81,25 @@ export default {
   box-sizing: border-box;
 }
 
-.select__input:focus{
-  border: 1px solid #272727;
-  box-sizing: border-box;
+.select__input:focus, :active{
+  border-color: #272727;
+  border-radius: 10px;
+  width: 99.50%;
 }
+
+.select__clear {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  width: 12px;
+  height: 12px;
+  cursor: pointer;
+}
+
 .options {
   position: absolute;
   top: 40px;
-  left: 0;
+  left: 0px;
   color: #979797;
   font-size: 18px;
   font-weight: 400;
@@ -66,7 +109,11 @@ export default {
   border-top: none;
   width: 100%;
   border-radius: 0 0 10px 10px;
-  padding-top: 10px;
+  padding-top: 20px;
+  max-height: 150px;
+  overflow: hidden;
+  overflow-y: scroll;
+  box-sizing: border-box;
 }
 
 .options::before {
@@ -76,13 +123,19 @@ export default {
   display: block;
   position: absolute;
   z-index: 13px;
-  top: 0;
+  top: 10px;
   left: 50%;
   transform: translate(-50%, 0);
   border-top: 1px solid #979797;
 }
 
 .options__item {
-  padding-bottom: 7px;
+  padding: 0 16px 7px;
+  text-align: left;
+  cursor: pointer;
+}
+
+.options__item:hover {
+  color: #272727;
 }
 </style>

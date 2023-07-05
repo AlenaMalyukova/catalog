@@ -1,11 +1,22 @@
 <template>
 <div class="modal-shadow" @click.self="close">
   <div class="modal">
-    <div class="modal-close" @click="close">&#10006;</div>
+    <img class="modal-close" @click="close" src="../../assets/icons/close.svg" alt="close"/>
     <h3 class="modal-title">Выбор населённого пункта:</h3>
     <div class="modal-content">
-      <SearchSelect/>
-      <button class="modal-content__button" @click="sendData">Подтвердить</button>
+      <SearchSelect
+        :options="options"
+        @input="search"
+        @change-option-selected="changeOptionSelect"
+      />
+      <button 
+        :class="[
+          'modal-content__button',
+          { 'modal-content__button_active': isOptionSelected }
+        ]"
+        :disabled="!isOptionSelected"
+        @click="sendData"
+        > Подтвердить </button>
     </div>
   </div>
 </div>
@@ -13,6 +24,7 @@
 
 <script>
 import SearchSelect from '../SearchSelect.vue';
+import { getAgent } from '../../api';
 
 export default{
   name: 'SelectCity',
@@ -20,22 +32,35 @@ export default{
     SearchSelect
   },
   data: () => ({
-    city: '',
     options: [],
     store: {},
+    agent: {},
+    isOptionSelected: false,
   }),
-  async mounted() {
-    this.store = useCitiesStore();
-    await this.setCurrentCity()
+  mounted() {
+    this.agent = getAgent();
   },
   methods: {
     close() {
       this.$emit('close')
     },
+    async search(term) {
+      const { data } = await this.agent.searchCities(term);
+
+      this.options = data.data
+    },
+    changeOptionSelect(value) {
+      this.isOptionSelected = value
+    },
     sendData() {
       this.$emit('click-btn')
     },
-  }
+  },
+  // computed: {
+  //   activeBtn() {
+
+  //   }
+  // }
 }
 </script>
 
@@ -79,18 +104,11 @@ export default{
   } */
 }
 .modal-close {
-  border-radius: 50%;
-  color: #979797;
-  background: transparent;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   position: absolute;
   top: 18px;
   right: 18px;
   width: 16px;
   height: 16px;
-  font-size: 24px;
   cursor: pointer;
 /* 
   @include phones {
@@ -141,6 +159,11 @@ export default{
     margin-top: 10px;
     font-size: 14px;
   } */
+}
+
+.modal-content__button_active {
+  background: linear-gradient(to right, #FFA800 100%, #FF6F00 100%);
+  color: #fff;
 }
 
 /* .modal-footer__button:hover {

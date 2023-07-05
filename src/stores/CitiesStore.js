@@ -16,6 +16,6 @@ export const useCitiesStore = defineStore('CitiesStore', {
       } catch(err) {
         console.log(err)
       }
-    }
+    },
   },
 }) 
