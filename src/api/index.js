@@ -2,7 +2,7 @@ import axios from '../plugins/axios.js'
 
 export const getAgent = () => {
 
-  const searchCities = async(term) => {
+  const searchCities = async (term) => {
     return await axios({
       method: 'GET',
       url: '/city',
@@ -24,7 +24,7 @@ export const getAgent = () => {
     })
   }
 
-  const searchCategories = async(id) => {
+  const searchCategories = async (id) => {
     return await axios({
       method: 'GET',
       url: '/menutags',
@@ -34,9 +34,20 @@ export const getAgent = () => {
     })
   }
 
+  const getAllProducts = async (cityId, categorySlug) => {
+    return await axios({
+      method: 'GET',
+      url: `/menutags/${categorySlug}`,
+      params: {
+        city_id: cityId
+      }
+    })
+  }
+
   return { 
     searchCities,
     getCity,
-    searchCategories
+    searchCategories,
+    getAllProducts,
   }
 }

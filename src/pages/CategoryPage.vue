@@ -1,25 +1,25 @@
 <template>
   <div class="category">
     <div class="category-header">
-      <button class="back" @click="back" v-if="currentCategory">
+      <button class="back" @click="back" v-if="mainCategory">
         <img class="back__img" src="../assets/icons/arrow.svg" alt="back">
       </button>
-      <h1 class="category-header__title">{{ currentCategory?.name }}</h1>
+      <h1 class="category-header__title">{{ mainCategory?.name }}</h1>
     </div>
-    <div class="content">
+    <div v-if="subCategories" class="content">
       <Sidebar
-        v-if="subCategories"
         :subCategories="subCategories"
         :currentSubCategoryId="currentSubCategoryId"
         @update-current-category-id="updateCurrentCategoryId"
       />
-      <ProductList v-if="subCategories"/>
+      <ProductList :products="products"/>
     </div>
   </div>
 </template>
 
 <script>
 import { useCategoriesStore } from '../stores/CategoriesStore';
+import { getAgent } from "../api";
 import Sidebar from '../components/Sidebar.vue'
 import ProductList from '../components/ProductList.vue';
 
@@ -31,13 +31,18 @@ export default {
   },
   data: () => ({
     isLoading: false,
+    agent: {},
     categoriesStore: {},
     currentSubCategoryId: 0,
+    products: [],
   }),
   async mounted() {
     this.categoriesStore = useCategoriesStore();
+    this.agent = getAgent();
 
     await this.loadCategories(this.currentCityId);
+
+    await this.loadProducts(this.mainCategory.slug);
   },
   methods: {
     async loadCategories(id) {
@@ -50,6 +55,15 @@ export default {
     updateCurrentCategoryId(id) {
       this.currentSubCategoryId = id;
     },
+    async loadProducts(categorySlug) {
+      try {
+        const { data } = await this.agent.getAllProducts(this.currentCityId, categorySlug);
+
+        this.products = data.products;
+      } catch (err) {
+        console.log(err);
+      }
+    },
     back() {
       this.$router.go(-1)
     }
@@ -58,22 +72,34 @@ export default {
     categories() {
       return this.categoriesStore.categories;
     },
-    currentCategory() {
+    mainCategory() {
       return this.categories?.find(i => i.slug === this.slug);
+    },
+    activeSubCategory() {
+      if (this.currentSubCategoryId === 0) {
+        return this.mainCategory;
+      }
+
+      const subCategory = this.mainCategory.children.find(i => i.id === this.currentSubCategoryId)
+
+      return subCategory;
     },
     slug() {
       return this.$route.params.slug;
     },
     subCategories() {
-      return this.currentCategory?.children;
+      return this.mainCategory?.children;
     },
     currentCityId() {
       return this.citiesStore?.currentCity?.id
-    }
+    },
   },
   watch: {
     currentCityId() {
       this.loadCategories(this.currentCityId);
+    },
+    currentSubCategoryId() {
+      this.loadProducts(this.activeSubCategory.slug);
     }
   },
 }

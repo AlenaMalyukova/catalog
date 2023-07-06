@@ -1,15 +1,15 @@
 <template>
-  <div v-if="subCategories?.length > 0" class="sidebar">
+  <div v-if="subCategories?.length > 2" class="sidebar">
     <div
       :class="currentSubCategoryId === 0 ? 'category category_active' : 'category'"
-      @click="updateDefaultSubCategoryId(0)"
+      @click="updateSubCategoryId(0)"
     >
       <span>Все товары</span>
     </div>
     <div
       v-for="category of subCategories" :key="category.id"
       :class="category.id === currentSubCategoryId ? 'category category_active' : 'category'"
-      @click="updateDefaultSubCategoryId(category.id)"
+      @click="updateSubCategoryId(category.id)"
     >
       <span class="category__name">{{ category.name }}</span>
     </div>
@@ -24,10 +24,10 @@ export default {
     currentSubCategoryId: Number,
   },
   methods: {
-    updateDefaultSubCategoryId(id) {
+    updateSubCategoryId(id) {
       this.$emit('update-current-category-id', id)
     },
-  }
+  },
 }
 </script>
 
