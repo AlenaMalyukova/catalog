@@ -1,17 +1,42 @@
-<script>
-import MainPage from './pages/MainPage.vue'
+<template>
+  <div v-if="isLoading"> Загрузка... </div>
+  <div v-else>
+    <Header/>
+    <div class="page">
+      <router-view/>
+    </div>
+  </div>
+</template>
 
-export default{
+<script>
+import Header from './components/layouts/Header.vue';
+import { useCitiesStore } from './stores/CitiesStore';
+
+export default {
+  name: 'App',
   components: {
-    MainPage
-  }
+    Header
+  },
+  data: () => ({
+    isLoading: true,
+    defaultCityId: 1,
+    citiesStore: {},
+  }),
+  async mounted() {
+    this.citiesStore = useCitiesStore();
+
+    await this.setCurrentCity(this.defaultCityId);
+
+    this.isLoading = false;
+  },
+  methods: {
+    async setCurrentCity(id) {
+      await this.citiesStore.setCurrentCity(id)
+    },
+  },
 
 }
 </script>
-
-<template>
-  <MainPage />
-</template>
 
 <style>
 
@@ -19,15 +44,23 @@ export default{
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  width: 100%;
-  margin: 0 auto;
-  padding: 0;
 }
 
-body{
-  background: #fff;
-  place-items: start;
+.page {
+  padding-top: 150px;
+  width: 100%;
+  /* display: flex;
+  justify-content: flex-start; */
 }
+
+/* body{
+
+  place-items: center start;
+} */
+
+/* .page {
+  background-color: ;
+} */
 
 /* .logo {
   height: 6em;

@@ -1,7 +1,11 @@
 import { createRouter, createWebHashHistory } from "vue-router";
-import MainPage from './pages/MainPage.vue'
+import MainPage from './pages/MainPage.vue';
+import CategoryPage from './pages/CategoryPage.vue'
 
 export default createRouter({
   history: createWebHashHistory(),
-  path: '/', component: MainPage
+  routes: [
+    { path: '/', component: MainPage },
+    { path: '/category/:slug',  component: CategoryPage },
+  ],
 })

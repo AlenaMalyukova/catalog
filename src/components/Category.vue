@@ -1,20 +1,21 @@
 <template>
-  <div class="category">
+  <div class="category" @click="toCategory(category.slug)">
     <h4 class="category__title">{{ category.name }}</h4>
     <img class="category__img" :src="category.image" :alt="category.name">
   </div>
 </template>
 
 <script>
+
 export default{
   name: 'Category',
   props:{
     category: Object
   },
-  computed: {
-    // generateColor() {
-    //   return 'background-color: #' + Math.floor(Math.random()*16777215).toString(16)
-    // }
+  methods: {
+    toCategory(slug) {
+      this.$router.push(`/category/${slug}`);
+    }
   }
 }
 </script>
