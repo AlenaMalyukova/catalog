@@ -2,7 +2,7 @@
   <div class="header">
     <div class="content">
       <img v-if="currentCity?.city" class="mark" src="../../assets/icons/mark.svg" alt="mark">
-      <h2 class="city" @click="selectCity">{{ currentCity?.city }}</h2>
+      <span class="city" @click="selectCity">{{ currentCity?.city }}</span>
     </div>
   </div>
   <SelectCityModal v-if="isSelectCity" @close="selectCity"/>
@@ -69,5 +69,7 @@ export default {
 .city {
   color: #272727;
   cursor: pointer;
+  font-weight: 600;
+  font-size: 16px;
 }
 </style>

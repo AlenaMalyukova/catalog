@@ -1,6 +1,6 @@
 <template>
   <div class="category" @click="toCategory(category.slug)">
-    <h4 class="category__title">{{ category.name }}</h4>
+    <p class="category__title">{{ category.name }}</p>
     <img class="category__img" :src="category.image" :alt="category.name">
   </div>
 </template>
@@ -25,6 +25,7 @@ export default{
   width: 100%;
   height: 152px;
   position: relative;
+  cursor: pointer;
 }
 
 .category__title {
