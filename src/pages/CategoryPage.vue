@@ -7,8 +7,13 @@
       <h1 class="category-header__title">{{ currentCategory?.name }}</h1>
     </div>
     <div class="content">
-      <Sidebar v-if="subCategories" :subCategories="subCategories"/>
-      <ProductList/>
+      <Sidebar
+        v-if="subCategories"
+        :subCategories="subCategories"
+        :currentSubCategoryId="currentSubCategoryId"
+        @update-current-category-id="updateCurrentCategoryId"
+      />
+      <ProductList v-if="subCategories"/>
     </div>
   </div>
 </template>
@@ -27,6 +32,7 @@ export default {
   data: () => ({
     isLoading: false,
     categoriesStore: {},
+    currentSubCategoryId: 0,
   }),
   async mounted() {
     this.categoriesStore = useCategoriesStore();
@@ -40,6 +46,9 @@ export default {
       await this.categoriesStore.loadCategories(id);
 
       this.isLoading = false;
+    },
+    updateCurrentCategoryId(id) {
+      this.currentSubCategoryId = id;
     },
     back() {
       this.$router.go(-1)
@@ -75,6 +84,7 @@ export default {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
+  /* cursor: pointer; */
 }
 .category-header {
   display: flex;
