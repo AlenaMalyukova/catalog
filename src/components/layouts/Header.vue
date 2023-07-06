@@ -1,7 +1,9 @@
 <template>
   <div class="header">
-    <img v-if="currentCity?.city" class="mark" src="../../assets/icons/mark.svg" alt="mark">
-    <h2 class="city" @click="selectCity">{{ currentCity?.city }}</h2>
+    <div class="content">
+      <img v-if="currentCity?.city" class="mark" src="../../assets/icons/mark.svg" alt="mark">
+      <h2 class="city" @click="selectCity">{{ currentCity?.city }}</h2>
+    </div>
   </div>
   <SelectCityModal v-if="isSelectCity" @close="selectCity"/>
 </template>
@@ -40,6 +42,24 @@ export default {
   display: flex;
   justify-content: flex-start;
   align-items: center;
+  width: 100%;
+  position: absolute;
+  left: 0;
+  z-index: 2;
+  background: #fff;
+  padding: 25px 0;
+  -webkit-box-shadow: 0px 4px 10px 0px rgba(39, 39, 39, 0.2);
+  -moz-box-shadow: 0px 4px 10px 0px rgba(39, 39, 39, 0.2);
+  box-shadow: 0px 4px 10px 0px rgba(39, 39, 39, 0.2);
+}
+
+.content {
+  max-width: 1280px;
+  width: 100%;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
 }
 .mark {
   width: 11px;

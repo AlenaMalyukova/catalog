@@ -1,59 +1,42 @@
 <template>
   <div v-if="isLoading"> Загрузка... </div>
-  <div v-else>
-    <Header/>
-    <div v-if="isPreload"> Загрузка... </div>
-    <Catalog v-else :categories="categories"/>
-  </div>
+  <Catalog v-else :categories="categories"/>
 </template>
 
 <script>
-import Header from '../components/layouts/Header.vue';
 import Catalog from '../components/layouts/Catalog.vue';
-import { useCitiesStore } from '../stores/CitiesStore';
 import { useCategoriesStore } from '../stores/CategoriesStore';
 
 export default {
   name: 'MainPage',
   components: {
-    Header,
     Catalog
   },
   data: () => ({
-    defaultCityId: 1,
-    isLoading: true,
-    isPreload: false,
-    citiesStore: {},
+    isLoading: false,
     categoriesStore: {},
   }),
   async mounted() {
-    this.citiesStore = useCitiesStore();
     this.categoriesStore = useCategoriesStore();
 
-    await this.setCurrentCity(this.defaultCityId);
-
-    await this.loadCategories(this.defaultCityId);
-
-    this.isLoading = false;
+    await this.loadCategories(this.currentCityId);
   },
   methods: {
-    async setCurrentCity(id) {
-      await this.citiesStore.setCurrentCity(id)
-    },
     async loadCategories(id) {
-      this.isPreload = true;
+      this.isLoading = true;
 
       await this.categoriesStore.loadCategories(id);
 
-      this.isPreload = false;
+      this.isLoading = false;
     },
   },
   computed: {
     categories() {
       return this.categoriesStore.categories
     },
+
     currentCityId() {
-      return this.citiesStore.currentCity?.id
+      return this.citiesStore?.currentCity?.id
     }
   },
   watch: {

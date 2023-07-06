@@ -4,7 +4,7 @@ import { getAgent } from "../api";
 
 export const useCategoriesStore = defineStore('CategoriesStore', {
   state: () => ({
-    categories: []
+    categories: [],
   }),
   actions: {
     async loadCategories(id) {
