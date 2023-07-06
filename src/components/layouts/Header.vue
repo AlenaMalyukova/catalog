@@ -1,6 +1,6 @@
 <template>
   <div class="header">
-    <img class="mark" src="../../assets/icons/mark.svg" alt="mark">
+    <img v-if="currentCity?.city" class="mark" src="../../assets/icons/mark.svg" alt="mark">
     <h2 class="city" @click="selectCity">{{ currentCity?.city }}</h2>
   </div>
   <SelectCityModal v-if="isSelectCity" @close="selectCity"/>
@@ -48,5 +48,6 @@ export default {
 }
 .city {
   color: #272727;
+  cursor: pointer;
 }
 </style>

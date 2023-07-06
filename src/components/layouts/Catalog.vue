@@ -5,7 +5,6 @@
       <Category v-for="category in categories" :key="category" :category="category"/>
     </div>
   </div>
-  <!-- <pre> {{ categories }} </pre> -->
 </template>
 
 <script>
@@ -41,8 +40,9 @@ export default {
   grid-gap: 22px;
   padding-top: 20px;
   padding-bottom: 100px;
-  /* justify-content: flex-start;
-  align-items: center;
-  flex-wrap: wrap; */
+
+  @media (min-width: 1024) {
+    grid-template-columns: repeat(3, 1fr);
+  }
 }
 </style>

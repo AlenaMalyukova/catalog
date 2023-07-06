@@ -2,7 +2,8 @@
   <div v-if="isLoading"> Загрузка... </div>
   <div v-else>
     <Header/>
-    <Catalog :categories="categories"/>
+    <div v-if="isPreload"> Загрузка... </div>
+    <Catalog v-else :categories="categories"/>
   </div>
 </template>
 
@@ -19,8 +20,9 @@ export default {
     Catalog
   },
   data: () => ({
-    cityId: 1,
+    defaultCityId: 1,
     isLoading: true,
+    isPreload: false,
     citiesStore: {},
     categoriesStore: {},
   }),
@@ -28,9 +30,9 @@ export default {
     this.citiesStore = useCitiesStore();
     this.categoriesStore = useCategoriesStore();
 
-    await this.setCurrentCity(this.cityId);
+    await this.setCurrentCity(this.defaultCityId);
 
-    await this.loadCategories(this.cityId);
+    await this.loadCategories(this.defaultCityId);
 
     this.isLoading = false;
   },
@@ -39,13 +41,25 @@ export default {
       await this.citiesStore.setCurrentCity(id)
     },
     async loadCategories(id) {
-      await this.categoriesStore.loadCategories(id)
+      this.isPreload = true;
+
+      await this.categoriesStore.loadCategories(id);
+
+      this.isPreload = false;
     },
   },
   computed: {
     categories() {
       return this.categoriesStore.categories
+    },
+    currentCityId() {
+      return this.citiesStore.currentCity?.id
     }
-  }
+  },
+  watch: {
+    currentCityId() {
+      this.loadCategories(this.currentCityId);
+    }
+  },
 }
 </script>
