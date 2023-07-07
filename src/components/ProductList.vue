@@ -1,18 +1,24 @@
 <template>
-  <div class="list">
-    <div class="card">
-      <ProductCard v-for="product in products" :key="product.id" :product="product"/>
-    </div>
+  <div class="loader" v-if="!products">
+    <Loader/>
+  </div>
+  <div v-else-if="products?.length === 0" class="empty">
+    <h1>Страница пуста</h1>
+  </div>
+  <div v-else class="list">
+    <ProductCard v-for="product in products" :key="product.id" :product="product"/>
   </div>
 </template>
 
 <script>
+import Loader from './Loader.vue';
 import ProductCard from './ProductCard.vue';
 
 export default {
   name: 'ProductList',
   components: {
-    ProductCard
+    ProductCard,
+    Loader
   },
   props: {
     products: Array,
@@ -21,7 +27,20 @@ export default {
 </script>
 
 <style scoped>
+.empty {
+  width: 100%;
+  display: flex;
+  text-align: center;
+  justify-content: center;
+  color: #27272780;
+}
 .list {
   width: 100%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  padding-left: 34px;
+  margin: -12px;
 }
 </style>

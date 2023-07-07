@@ -36,7 +36,7 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  width: 20%;
+  width: 25%;
 }
 
 .category {
@@ -48,6 +48,7 @@ export default {
   font-weight: 600;
   padding: 8px 12px;
   cursor: pointer;
+  box-sizing: border-box;
 }
 
 .category::after {

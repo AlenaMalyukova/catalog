@@ -1,5 +1,8 @@
 <template>
-  <div v-if="isLoading"> Загрузка... </div>
+  <!-- <div v-if="isLoading"> Загрузка... </div> -->
+  <div class="loader" v-if="isLoading">
+    <Loader/>
+  </div>
   <div v-else>
     <Header/>
     <div class="page">
@@ -10,12 +13,14 @@
 
 <script>
 import Header from './components/layouts/Header.vue';
+import Loader from './components/Loader.vue';
 import { useCitiesStore } from './stores/CitiesStore';
 
 export default {
   name: 'App',
   components: {
-    Header
+    Header,
+    Loader
   },
   data: () => ({
     isLoading: true,
@@ -44,6 +49,13 @@ export default {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
+}
+
+.loader {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
 }
 
 .page {

@@ -1,5 +1,8 @@
 <template>
-  <div class="category">
+  <div class="loader" v-if="isLoading">
+    <Loader/>
+  </div>
+  <div v-else class="category">
     <div class="category-header">
       <button class="back" @click="back" v-if="mainCategory">
         <img class="back__img" src="../assets/icons/arrow.svg" alt="back">
@@ -22,15 +25,18 @@ import { useCategoriesStore } from '../stores/CategoriesStore';
 import { getAgent } from "../api";
 import Sidebar from '../components/Sidebar.vue'
 import ProductList from '../components/ProductList.vue';
+import Loader from '../components/Loader.vue';
 
 export default {
   name: 'CategoryPage',
   components: {
     Sidebar,
-    ProductList
+    ProductList,
+    Loader
   },
   data: () => ({
     isLoading: false,
+    isPreloading: false,
     agent: {},
     categoriesStore: {},
     currentSubCategoryId: 0,
@@ -40,17 +46,17 @@ export default {
     this.categoriesStore = useCategoriesStore();
     this.agent = getAgent();
 
-    await this.loadCategories(this.currentCityId);
+    this.isLoading = true
 
+    await this.loadCategories(this.currentCityId);
+    
     await this.loadProducts(this.mainCategory.slug);
+    
+    this.isLoading = false
   },
   methods: {
     async loadCategories(id) {
-      this.isLoading = true;
-
       await this.categoriesStore.loadCategories(id);
-
-      this.isLoading = false;
     },
     updateCurrentCategoryId(id) {
       this.currentSubCategoryId = id;
@@ -106,11 +112,18 @@ export default {
 </script>
 
 <style scoped>
+
+.loader {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+}
+
 .category {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  /* cursor: pointer; */
 }
 .category-header {
   display: flex;

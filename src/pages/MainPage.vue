@@ -1,16 +1,20 @@
 <template>
-  <div v-if="isLoading"> Загрузка... </div>
+  <div class="loader" v-if="isLoading">
+    <Loader/>
+  </div>
   <Catalog v-else :categories="categories"/>
 </template>
 
 <script>
 import Catalog from '../components/layouts/Catalog.vue';
+import Loader from '../components/Loader.vue';
 import { useCategoriesStore } from '../stores/CategoriesStore';
 
 export default {
   name: 'MainPage',
   components: {
-    Catalog
+    Catalog,
+    Loader
   },
   data: () => ({
     isLoading: false,
@@ -46,3 +50,12 @@ export default {
   },
 }
 </script>
+
+<style scoped>
+.loader {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+}
+</style>
