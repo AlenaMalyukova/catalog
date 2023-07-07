@@ -51,6 +51,11 @@ export default {
   -webkit-box-shadow: 0px 4px 10px 0px rgba(39, 39, 39, 0.2);
   -moz-box-shadow: 0px 4px 10px 0px rgba(39, 39, 39, 0.2);
   box-shadow: 0px 4px 10px 0px rgba(39, 39, 39, 0.2);
+
+  @media(max-width: 865px) {
+    position: fixed;
+    top: 0;
+  }
 }
 
 .content {
