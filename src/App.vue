@@ -1,5 +1,4 @@
 <template>
-  <!-- <div v-if="isLoading"> Загрузка... </div> -->
   <div class="loader" v-if="isLoading">
     <Loader/>
   </div>
