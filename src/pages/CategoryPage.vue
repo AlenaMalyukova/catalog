@@ -194,5 +194,9 @@ export default {
 .content {
   padding-top: 20px;
   display: flex;
+
+  @media(max-width: 865px) {
+    justify-content: center;
+  }
 }
 </style>

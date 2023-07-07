@@ -42,5 +42,10 @@ export default {
   flex-wrap: wrap;
   padding-left: 34px;
   margin: -12px;
+
+  @media(max-width: 865px) {
+    padding-left: 0;
+    justify-content: center;
+  }
 }
 </style>
