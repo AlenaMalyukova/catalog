@@ -103,10 +103,10 @@ export default {
   watch: {
     currentCityId() {
       this.loadCategories(this.currentCityId);
+      this.loadProducts(this.mainCategory.slug);
     },
     currentSubCategoryId() {
       this.loadProducts(this.activeSubCategory.slug);
-      this.loadProducts(this.mainCategory.slug);
     }
   },
 }
