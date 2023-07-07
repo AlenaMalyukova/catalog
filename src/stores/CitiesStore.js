@@ -3,6 +3,7 @@ import { defineStore } from "pinia";
 import { getAgent } from "../api";
 
 export const useCitiesStore = defineStore('CitiesStore', {
+  persist: true,
   state: () => ({
     currentCity: {},
   }),

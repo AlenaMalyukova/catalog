@@ -30,15 +30,24 @@ export default {
   async mounted() {
     this.citiesStore = useCitiesStore();
 
-    await this.setCurrentCity(this.defaultCityId);
+    if (this.currentCityId) {
+      await this.setCurrentCity(this.currentCityId);
+    } else {
+      await this.setCurrentCity(this.defaultCityId);
+    }
 
     this.isLoading = false;
   },
   methods: {
     async setCurrentCity(id) {
-      await this.citiesStore.setCurrentCity(id)
+      await this.citiesStore.setCurrentCity(id);
     },
   },
+  computed: {
+    currentCityId() {
+      return this.citiesStore?.currentCity?.id;
+    }
+  }
 
 }
 </script>
