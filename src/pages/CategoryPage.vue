@@ -106,6 +106,7 @@ export default {
     },
     currentSubCategoryId() {
       this.loadProducts(this.activeSubCategory.slug);
+      this.loadProducts(this.mainCategory.slug);
     }
   },
 }
