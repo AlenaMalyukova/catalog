@@ -54,7 +54,8 @@ export default {
 }
 
 .content {
-  max-width: 1280px;
+  max-width: 1200px;
+  padding: 0 100px;
   width: 100%;
   margin: 0 auto;
   display: flex;
@@ -71,5 +72,26 @@ export default {
   cursor: pointer;
   font-weight: 600;
   font-size: 16px;
+}
+
+@media (max-width: 1024px) {
+  .content {
+    max-width: 1024px;
+    padding: 0 60px;
+  }
+}
+
+@media (max-width: 865px) {
+  .content {
+    max-width: 865px;
+    padding: 0 40px;
+  }
+}
+
+@media (max-width: 560px) {
+  .content {
+    max-width: 560px;
+    padding: 0 15px;
+  }
 }
 </style>

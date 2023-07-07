@@ -36,7 +36,7 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  width: 25%;
+  width: 240px;
 }
 
 .category {

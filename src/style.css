@@ -59,10 +59,43 @@ button {
 }
 
 #app {
-  max-width: 1280px;
+  max-width: 1400px;
   width: 100%;
   height: 100%;
-  margin: 0 auto;}
+  margin: 0 auto;
+}
+
+.page {
+  padding-top: 100px;
+  width: 100%;
+}
+
+.container {
+  padding: 0 100px;
+  margin: 0 auto;
+}
+
+@media (max-width: 1024px) {
+  .page {
+    padding-top: 80px;
+  }
+
+  .container {
+    padding: 0 60px
+  }
+}
+
+@media (max-width: 865px) {
+  .container {
+    padding: 0 40px;
+  }
+}
+
+@media (max-width: 600px) {
+  .container {
+    padding: 0 15px;
+  }
+}
 
 @media (prefers-color-scheme: light) {
   :root {

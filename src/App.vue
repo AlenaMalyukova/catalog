@@ -3,7 +3,7 @@
   <div class="loader" v-if="isLoading">
     <Loader/>
   </div>
-  <div v-else>
+  <div v-else class="container">
     <Header/>
     <div class="page">
       <router-view/>
@@ -56,10 +56,5 @@ export default {
   top: 50%;
   left: 50%;
   transform: translate(-50%,-50%);
-}
-
-.page {
-  padding-top: 100px;
-  width: 100%;
 }
 </style>

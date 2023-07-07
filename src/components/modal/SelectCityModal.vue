@@ -100,17 +100,6 @@ export default{
   justify-content: space-between;
   align-items: flex-start;
   box-sizing: border-box;
-
-  /* @include tablets {
-    padding: 40px 30px 30px;
-    max-width: 550px;
-  }
-
-  @include phones {
-    padding: 30px 20px 20px;
-    max-width: 400px;
-    width: 250px;
-  } */
 }
 .modal-close {
   position: absolute;
@@ -119,12 +108,6 @@ export default{
   width: 16px;
   height: 16px;
   cursor: pointer;
-/* 
-  @include phones {
-    top: 15px;
-    right: 15px;
-    font-size: 20px;
-  } */
 }
 
 .modal-title {
@@ -156,18 +139,6 @@ export default{
   cursor: pointer;
   text-transform: uppercase;
   box-sizing: border-box;
-/* 
-  @include tablets {
-    padding: 15px 20px;
-    margin-top: 15px;
-    font-size: 16px;
-  }
-
-  @include phones {
-    padding: 10px 15px;
-    margin-top: 10px;
-    font-size: 14px;
-  } */
 }
 
 .modal-content__button_active {
@@ -175,7 +146,34 @@ export default{
   color: #fff;
 }
 
-/* .modal-footer__button:hover {
-  background: #c4a162;
-} */
+@media (max-width: 865px) {
+  .modal {
+    max-width: 500px;
+    align-items: center;
+    padding: 25px 15px 15px;
+  }
+
+  .modal-content {
+    flex-direction: column;
+  }
+
+  .select {
+    margin-right: 0;
+    margin-bottom: 10px;
+  }
+}
+
+@media (max-width: 560px) {
+  .modal {
+    max-width: 300px;
+    padding-top: 30px;
+  }
+
+  .modal-close {
+    top: 10px;
+    right: 10px;
+    width: 12px;
+    height: 12px;
+  }
+}
 </style>

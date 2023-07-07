@@ -157,6 +157,40 @@ export default {
   margin: 0;
 }
 
+@media (max-width: 1024px) {
+  .category-header__title {
+    font-size: 36px;
+  }
+
+  .back {
+    width: 30px;
+    height: 30px;
+  }
+}
+
+@media (max-width: 1024px) {
+  .category-header__title {
+    font-size: 36px;
+  }
+
+  .back {
+    width: 30px;
+    height: 30px;
+  }
+}
+
+@media (max-width: 865px) {
+  .category-header__title {
+    font-size: 24px;
+    line-height: 1.3;
+  }
+
+  .back {
+    width: 20px;
+    height: 20px;
+  }
+}
+
 .content {
   padding-top: 20px;
   display: flex;

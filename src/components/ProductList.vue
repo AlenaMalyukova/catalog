@@ -35,7 +35,7 @@ export default {
   color: #27272780;
 }
 .list {
-  width: 100%;
+  width: 70%;
   display: flex;
   justify-content: flex-start;
   align-items: flex-start;
