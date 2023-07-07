@@ -7,7 +7,7 @@
       <button class="back" @click="back" v-if="mainCategory">
         <img class="back__img" src="../assets/icons/arrow.svg" alt="back">
       </button>
-      <h1 class="category-header__title">{{ mainCategory?.name }}</h1>
+      <h1 class="category-header__title">{{ mainCategory?.name }} ( {{ activeSubCategory.name }} )</h1>
     </div>
     <div v-if="subCategories" class="content">
       <Sidebar
@@ -22,6 +22,7 @@
 
 <script>
 import { useCategoriesStore } from '../stores/CategoriesStore';
+import { useCitiesStore } from '../stores/CitiesStore';
 import { getAgent } from "../api";
 import Sidebar from '../components/Sidebar.vue'
 import ProductList from '../components/ProductList.vue';
@@ -39,35 +40,41 @@ export default {
     isPreloading: false,
     agent: {},
     categoriesStore: {},
+    citiesStore: {},
     currentSubCategoryId: 0,
     products: [],
   }),
   async mounted() {
     this.categoriesStore = useCategoriesStore();
+    this.citiesStore = useCitiesStore();
     this.agent = getAgent();
-
-    this.isLoading = true
 
     await this.loadCategories(this.currentCityId);
     
     await this.loadProducts(this.mainCategory.slug);
-    
-    this.isLoading = false
   },
   methods: {
     async loadCategories(id) {
+      this.isLoading = true;
+
       await this.categoriesStore.loadCategories(id);
+
+      this.isLoading = false;
     },
     updateCurrentCategoryId(id) {
       this.currentSubCategoryId = id;
     },
     async loadProducts(categorySlug) {
+      this.isLoading = true;
+
       try {
         const { data } = await this.agent.getAllProducts(this.currentCityId, categorySlug);
 
         this.products = data.products;
       } catch (err) {
         console.log(err);
+      } finally {
+        this.isLoading = false;
       }
     },
     back() {

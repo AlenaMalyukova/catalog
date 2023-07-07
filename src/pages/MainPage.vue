@@ -9,6 +9,7 @@
 import Catalog from '../components/layouts/Catalog.vue';
 import Loader from '../components/Loader.vue';
 import { useCategoriesStore } from '../stores/CategoriesStore';
+import { useCitiesStore } from '../stores/CitiesStore';
 
 export default {
   name: 'MainPage',
@@ -19,9 +20,11 @@ export default {
   data: () => ({
     isLoading: false,
     categoriesStore: {},
+    citiesStore: {},
   }),
   async mounted() {
     this.categoriesStore = useCategoriesStore();
+    this.citiesStore = useCitiesStore();
 
     await this.loadCategories(this.currentCityId);
   },
